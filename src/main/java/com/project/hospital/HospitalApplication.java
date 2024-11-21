@@ -38,9 +38,9 @@ import jakarta.transaction.Transactional;
 public class HospitalApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HospitalApplication.class, args);
-	}}
-		/* ---------- > Run only once for generating dummy data
+	// 	SpringApplication.run(HospitalApplication.class, args);
+	// }}
+		// ---------- > Run only once for generating dummy data
 		ApplicationContext appContext = SpringApplication.run(HospitalApplication.class, args);
 
 		// Filling the database with some dummy data using library Faker
@@ -287,4 +287,4 @@ public class HospitalApplication {
 
 }
 
-*/
+// */

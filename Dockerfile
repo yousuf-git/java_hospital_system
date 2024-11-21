@@ -23,4 +23,4 @@ RUN ls target/*.jar
 EXPOSE 8080  
 
 # Run the application  
-ENTRYPOINT ["java", "-jar", "target/*.jar"]
+ENTRYPOINT ["java", "-jar", "target/hospital-0.0.1-SNAPSHOT.jar"]

@@ -58,4 +58,8 @@ public class DepartService {
         return department;
     }
 
+    public List<?> getDoctorsByDepartment(int departId) {
+        return departRepo.findDoctorsByDepartment(departId);
+    }
+
 }

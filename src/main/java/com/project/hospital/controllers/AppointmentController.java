@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -115,10 +116,16 @@ public class AppointmentController {
             .patient(patient)
             .doctor(doctor)
             .build();
-        if (appointmentService.addAppointment(appointment)) {
-            return ResponseEntity.ok(appointment);
+        // if (appointmentService.addAppointment(appointment)) {
+        //     return ResponseEntity.ok(appointment);
+        // }
+        // return ResponseEntity.badRequest().body("Doctor is not available at that time");
+        try {
+            Appointment savedAppointment = appointmentService.addAppointment(appointment);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedAppointment);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-        return ResponseEntity.badRequest().body("Doctor is not available at that time");
     }
 
     // PUT /appointment/{id}

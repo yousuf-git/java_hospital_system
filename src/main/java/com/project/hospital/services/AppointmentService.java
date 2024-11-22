@@ -3,6 +3,7 @@ package com.project.hospital.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.project.hospital.repos.AppointmentRepo;
@@ -27,17 +28,21 @@ public class AppointmentService {
     }
 
     // Add appointment
-    public boolean addAppointment(Appointment appointment) {
+    public Appointment addAppointment(Appointment appointment) {
         // If appointment already exists
-        if(appointmentRepo.existsById(appointment.getAppId())) {
-            return false;
-        }
+        // if(appointmentRepo.existsById(appointment.getAppId())) {
+        //     return false;
+        // }
         // Appointment has time and doctor, doctor has schedule, check if appointment time is in between start and end time of doctor's schedule and there isn't any other appointment at that time
-        if(appointmentRepo.isAppointmentTimeValid(appointment.getDoctor().getDocId(), appointment.getAppTime())) {
-            appointmentRepo.save(appointment);
-            return true;
+        // if(appointmentRepo.isAppointmentTimeValid(appointment.getDoctor().getDocId(), appointment.getAppTime())) {
+        //     appointmentRepo.save(appointment);
+        //     return true;
+        // }
+        try {
+            return appointmentRepo.save(appointment);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalStateException("This time slot is already booked for the selected doctor.");
         }
-        return false;
 
     }
 

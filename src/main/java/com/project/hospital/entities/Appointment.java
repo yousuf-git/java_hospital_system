@@ -13,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +25,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity(name = "appointments")
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"docId", "app_date", "app_time"})
+})
 public class Appointment {
     
     @Id
@@ -32,10 +37,10 @@ public class Appointment {
     @Column(nullable = false, length = 250)
     private String appRoom;
 
-    @Column(nullable = false)
+    @Column(name = "app_date", nullable = false)
     private LocalDate appDate;
 
-    @Column(nullable = false)
+    @Column(name = "app_time" ,nullable = false)
     private LocalTime appTime;
 
     @Column(length = 250)

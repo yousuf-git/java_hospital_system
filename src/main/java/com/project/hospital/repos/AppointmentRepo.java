@@ -26,7 +26,7 @@ public interface AppointmentRepo extends JpaRepository<Appointment, Integer> {
             FROM appointments a
             JOIN doctors d ON a.doctor.docId = d.docId
             JOIN d.schedule s
-            WHERE d.id = :doctorId
+            WHERE d.docId = :doctorId
             AND a.appStatus = 'pending' 
             AND :appTime BETWEEN s.schFrom AND s.schTo
             AND (a.appTime = :appTime)

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: hospitaldb
+      MYSQL_USER: harry
+      MYSQL_PASSWORD: harry
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend-container
+    environment:
+      MYSQL_HOST: db
+      MYSQL_ROOT_PASSWORD: rootpassword
+      # MYSQL_DATABASE: hospitaldb
+      MYSQL_USER: harry
+      MYSQL_PASSWORD: harry
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

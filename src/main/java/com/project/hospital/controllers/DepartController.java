@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.hospital.entities.Department;
@@ -107,6 +108,12 @@ public class DepartController {
         }
         // Return responseEntity with status code 404 which means not found
         return ResponseEntity.notFound().build();
+    }
+
+    // Get all doctors of a department
+    @GetMapping("/doctors")
+    public List<?> getDoctorsByDepartment(@RequestHeader int departId) {
+        return departService.getDoctorsByDepartment(departId);
     }
 
 }

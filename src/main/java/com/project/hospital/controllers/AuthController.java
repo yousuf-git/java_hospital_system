@@ -2,7 +2,7 @@ package com.project.hospital.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.hospital.entities.Admin;
 import com.project.hospital.entities.Doctor;
 import com.project.hospital.entities.Patient;
+import com.project.hospital.requestEntities.AuthRequest;
 import com.project.hospital.services.AdminService;
 import com.project.hospital.services.DoctorService;
 import com.project.hospital.services.PatientService;
@@ -28,16 +29,16 @@ public class AuthController {
     @Autowired
     private PatientService patientService;
 
-    // POST /auth/admin
-    @PostMapping("/admin")
-    public ResponseEntity<?> loginAdmin(@RequestBody String email, @RequestBody String password) {
+    // GET /auth/admin
+    @GetMapping("/admin")
+    public ResponseEntity<?> loginAdmin(@RequestBody AuthRequest authRequest) {
         // Validate email and password
-        if(email == null || password == null || email.isEmpty() || password.isEmpty()) {
+        if(authRequest.getEmail() == null || authRequest.getPassword() == null || authRequest.getEmail().isEmpty() || authRequest.getPassword().isEmpty()) {
             // Return responseEntity with status code 400 which means bad request
             return ResponseEntity.badRequest().body("Invalid email or password");
         }
         // Check if email and password are valid
-        Admin admin = adminService.loginAdmin(email, password);
+        Admin admin = adminService.loginAdmin(authRequest.getEmail(), authRequest.getPassword());
         if(admin == null) {
             // Return responseEntity with status code 404 which means not found
             return ResponseEntity.notFound().build();
@@ -47,16 +48,16 @@ public class AuthController {
 
     }
 
-    // POST /auth/doctor
-    @PostMapping("/doctor")
-    public ResponseEntity<?> loginDoctor(@RequestBody String email, @RequestBody String password) {
+    // GET /auth/doctor
+    @GetMapping("/doctor")
+    public ResponseEntity<?> loginDoctor(@RequestBody AuthRequest authRequest) {
         // Validate email and password
-        if(email == null || password == null || email.isEmpty() || password.isEmpty()) {
+        if(authRequest.getEmail() == null || authRequest.getPassword() == null || authRequest.getEmail().isEmpty() || authRequest.getPassword().isEmpty()) {
             // Return responseEntity with status code 400 which means bad request
             return ResponseEntity.badRequest().body("Invalid email or password");
         }
         // Check if email and password are valid
-        Doctor doctor = doctorService.loginDoctor(email, password);
+        Doctor doctor = doctorService.loginDoctor(authRequest.getEmail(), authRequest.getPassword());
         if(doctor == null) {
             // Return responseEntity with status code 404 which means not found
             return ResponseEntity.notFound().build();
@@ -65,16 +66,16 @@ public class AuthController {
         return ResponseEntity.ok(doctor);
     }
 
-    // POST /auth/patient
-    @PostMapping("/patient")
-    public ResponseEntity<?> loginPatient(@RequestBody String email, @RequestBody String password) {
+    // GET /auth/patient
+    @GetMapping("/patient")
+    public ResponseEntity<?> loginPatient(@RequestBody AuthRequest authRequest) {
         // Validate email and password
-        if(email == null || password == null || email.isEmpty() || password.isEmpty()) {
+        if(authRequest.getEmail() == null || authRequest.getPassword() == null || authRequest.getEmail().isEmpty() || authRequest.getPassword().isEmpty()) {
             // Return responseEntity with status code 400 which means bad request
             return ResponseEntity.badRequest().body("Invalid email or password");
         }
         // Check if email and password are valid
-        Patient patient = patientService.loginPatient(email, password);
+        Patient patient = patientService.loginPatient(authRequest.getEmail(), authRequest.getPassword());
         if(patient == null) {
             // Return responseEntity with status code 404 which means not found
             return ResponseEntity.notFound().build();
